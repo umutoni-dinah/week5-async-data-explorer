@@ -16,18 +16,63 @@ export function render(state) {
   status.setAttribute("aria-live", "polite");
   status.className = "mt-3 text-gray-600";
 
-  if (state.status === "loading") {
-    status.textContent = "Loading recipes…";
-    page.append(heading, status);
-    app.append(page);
-    return;
+    if (state.status === "loading") {
+    status.textContent = "Loading recipes…"
+
+    const skeletonGrid = document.createElement("section")
+    skeletonGrid.setAttribute("aria-label", "Loading recipes")
+    skeletonGrid.className =
+      "mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+
+    const skeletonCards = Array.from({ length: 6 }, () => {
+      const card = document.createElement("div")
+      card.setAttribute("aria-hidden", "true")
+      card.className =
+        "animate-pulse overflow-hidden rounded-2xl border border-gray-200 bg-white"
+
+      const imagePlaceholder = document.createElement("div")
+      imagePlaceholder.className = "h-48 bg-gray-200"
+
+      const textPlaceholder = document.createElement("div")
+      textPlaceholder.className = "space-y-3 p-4"
+
+      const firstLine = document.createElement("div")
+      firstLine.className = "h-5 w-3/4 rounded bg-gray-200"
+
+      const secondLine = document.createElement("div")
+      secondLine.className = "h-4 w-1/2 rounded bg-gray-200"
+
+      textPlaceholder.append(firstLine, secondLine)
+      card.append(imagePlaceholder, textPlaceholder)
+
+      return card
+    })
+
+    skeletonGrid.append(...skeletonCards)
+    page.append(heading, status, skeletonGrid)
+    app.append(page)
+    return
   }
 
-  if (state.status === "error") {
-    status.textContent = `Could not load recipes: ${state.error}`;
-    page.append(heading, status);
-    app.append(page);
-    return;
+   if (state.status === "error") {
+    status.textContent = "We couldn’t load the recipes right now."
+
+    const errorMessage = document.createElement("p")
+    errorMessage.textContent = state.error
+      ? `Details: ${state.error}`
+      : "Please check your connection and try again."
+    errorMessage.className = "mt-2 text-gray-600"
+
+    const retryButton = document.createElement("button")
+    retryButton.id = "retry-button"
+    retryButton.type = "button"
+    retryButton.textContent = "Retry"
+    retryButton.className =
+      "mt-4 rounded-lg bg-amber-600 px-5 py-3 font-semibold text-white hover:bg-amber-700"
+
+    page.append(heading, status, errorMessage, retryButton)
+    app.append(page)
+    return
   }
 
   const searchLabel = document.createElement("label");

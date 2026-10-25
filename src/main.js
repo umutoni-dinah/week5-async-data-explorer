@@ -68,6 +68,10 @@ app.addEventListener("change", (event) => {
 });
 
 app.addEventListener("click", async (event) => {
+    if (event.target.closest("#retry-button")) {
+    load()
+    return
+  }
   const recipeButton = event.target.closest("[data-recipe-id]")
   if (!recipeButton) return
 
