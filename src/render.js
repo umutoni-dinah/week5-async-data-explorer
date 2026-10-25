@@ -103,6 +103,48 @@ export function render(state) {
     sort: state.sort ?? "default",
   });
 
+    const totals = visibleItems.reduce(
+    (
+      totals,
+      {
+        rating = 0,
+        prepTimeMinutes = 0,
+        cookTimeMinutes = 0,
+      },
+    ) => ({
+      ratingSum: totals.ratingSum + rating,
+      minutesSum:
+        totals.minutesSum + prepTimeMinutes + cookTimeMinutes,
+    }),
+    { ratingSum: 0, minutesSum: 0 },
+  )
+
+  const averageRating =
+    visibleItems.length > 0
+      ? (totals.ratingSum / visibleItems.length).toFixed(1)
+      : "—"
+
+  const averageTime =
+    visibleItems.length > 0
+      ? Math.round(totals.minutesSum / visibleItems.length)
+      : "—"
+
+  const statsBar = document.createElement("section")
+  statsBar.setAttribute("aria-label", "Recipe statistics")
+  statsBar.className =
+    "mt-6 flex flex-wrap gap-4 rounded-xl bg-amber-50 p-4 text-sm text-gray-800"
+
+  const statMessages = [
+    `${visibleItems.length} recipes shown`,
+    `Average rating: ${averageRating}`,
+    `Average prep + cook time: ${averageTime} min`,
+  ]
+
+  statMessages.forEach((message) => {
+    const stat = document.createElement("p")
+    stat.textContent = message
+    statsBar.append(stat)
+  })
   status.textContent = `${visibleItems.length} recipes shown`;
 
   const grid = document.createElement("section");
@@ -123,6 +165,7 @@ export function render(state) {
       sortLabel,
       sortSelect,
       filterSelect,
+      statsBar,
       status,
       emptyMessage,
     );
@@ -169,6 +212,7 @@ export function render(state) {
     sortLabel,
     sortSelect,
     filterSelect,
+    statsBar,
     status,
     grid,
   );
