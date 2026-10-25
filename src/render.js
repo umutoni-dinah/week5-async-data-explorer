@@ -271,6 +271,7 @@ export function render(state) {
 
   if (state.detailStatus) {
     const dialog = document.createElement("dialog");
+    dialog.setAttribute("aria-label", "Recipe details")
     dialog.className =
       "m-auto max-h-[85vh] w-11/12 max-w-3xl overflow-y-auto rounded-2xl p-6 shadow-xl backdrop:bg-black/50";
 
