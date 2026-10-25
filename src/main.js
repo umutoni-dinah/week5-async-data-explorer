@@ -72,6 +72,15 @@ app.addEventListener("click", async (event) => {
     load()
     return
   }
+
+  if (event.target.closest("#reset-filters")) {
+  state.query = ""
+  state.filter = "all"
+  state.sort = "default"
+  render(state)
+  return
+}
+
   const recipeButton = event.target.closest("[data-recipe-id]")
   if (!recipeButton) return
 

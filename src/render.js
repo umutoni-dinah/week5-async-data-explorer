@@ -16,63 +16,63 @@ export function render(state) {
   status.setAttribute("aria-live", "polite");
   status.className = "mt-3 text-gray-600";
 
-    if (state.status === "loading") {
-    status.textContent = "Loading recipes…"
+  if (state.status === "loading") {
+    status.textContent = "Loading recipes…";
 
-    const skeletonGrid = document.createElement("section")
-    skeletonGrid.setAttribute("aria-label", "Loading recipes")
+    const skeletonGrid = document.createElement("section");
+    skeletonGrid.setAttribute("aria-label", "Loading recipes");
     skeletonGrid.className =
-      "mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      "mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3";
 
     const skeletonCards = Array.from({ length: 6 }, () => {
-      const card = document.createElement("div")
-      card.setAttribute("aria-hidden", "true")
+      const card = document.createElement("div");
+      card.setAttribute("aria-hidden", "true");
       card.className =
-        "animate-pulse overflow-hidden rounded-2xl border border-gray-200 bg-white"
+        "animate-pulse overflow-hidden rounded-2xl border border-gray-200 bg-white";
 
-      const imagePlaceholder = document.createElement("div")
-      imagePlaceholder.className = "h-48 bg-gray-200"
+      const imagePlaceholder = document.createElement("div");
+      imagePlaceholder.className = "h-48 bg-gray-200";
 
-      const textPlaceholder = document.createElement("div")
-      textPlaceholder.className = "space-y-3 p-4"
+      const textPlaceholder = document.createElement("div");
+      textPlaceholder.className = "space-y-3 p-4";
 
-      const firstLine = document.createElement("div")
-      firstLine.className = "h-5 w-3/4 rounded bg-gray-200"
+      const firstLine = document.createElement("div");
+      firstLine.className = "h-5 w-3/4 rounded bg-gray-200";
 
-      const secondLine = document.createElement("div")
-      secondLine.className = "h-4 w-1/2 rounded bg-gray-200"
+      const secondLine = document.createElement("div");
+      secondLine.className = "h-4 w-1/2 rounded bg-gray-200";
 
-      textPlaceholder.append(firstLine, secondLine)
-      card.append(imagePlaceholder, textPlaceholder)
+      textPlaceholder.append(firstLine, secondLine);
+      card.append(imagePlaceholder, textPlaceholder);
 
-      return card
-    })
+      return card;
+    });
 
-    skeletonGrid.append(...skeletonCards)
-    page.append(heading, status, skeletonGrid)
-    app.append(page)
-    return
+    skeletonGrid.append(...skeletonCards);
+    page.append(heading, status, skeletonGrid);
+    app.append(page);
+    return;
   }
 
-   if (state.status === "error") {
-    status.textContent = "We couldn’t load the recipes right now."
+  if (state.status === "error") {
+    status.textContent = "We couldn’t load the recipes right now.";
 
-    const errorMessage = document.createElement("p")
+    const errorMessage = document.createElement("p");
     errorMessage.textContent = state.error
       ? `Details: ${state.error}`
-      : "Please check your connection and try again."
-    errorMessage.className = "mt-2 text-gray-600"
+      : "Please check your connection and try again.";
+    errorMessage.className = "mt-2 text-gray-600";
 
-    const retryButton = document.createElement("button")
-    retryButton.id = "retry-button"
-    retryButton.type = "button"
-    retryButton.textContent = "Retry"
+    const retryButton = document.createElement("button");
+    retryButton.id = "retry-button";
+    retryButton.type = "button";
+    retryButton.textContent = "Retry";
     retryButton.className =
-      "mt-4 rounded-lg bg-amber-600 px-5 py-3 font-semibold text-white hover:bg-amber-700"
+      "mt-4 rounded-lg bg-amber-600 px-5 py-3 font-semibold text-white hover:bg-amber-700";
 
-    page.append(heading, status, errorMessage, retryButton)
-    app.append(page)
-    return
+    page.append(heading, status, errorMessage, retryButton);
+    app.append(page);
+    return;
   }
 
   const searchLabel = document.createElement("label");
@@ -193,6 +193,12 @@ export function render(state) {
     emptyMessage.textContent =
       "No recipes match your search. Try another term.";
     emptyMessage.className = "mt-8 text-gray-600";
+    const resetButton = document.createElement("button");
+    resetButton.id = "reset-filters";
+    resetButton.type = "button";
+    resetButton.textContent = "Clear search and filters";
+    resetButton.className =
+      "mt-4 rounded-lg bg-amber-600 px-5 py-3 font-semibold text-white hover:bg-amber-700";
     page.append(
       heading,
       searchLabel,
@@ -201,11 +207,12 @@ export function render(state) {
       filterSelect,
       sortLabel,
       sortSelect,
-      filterSelect,
       statsBar,
       status,
       emptyMessage,
+      resetButton,
     );
+
     app.append(page);
     return;
   }
@@ -262,32 +269,32 @@ export function render(state) {
   );
   app.append(page);
 
-    if (state.detailStatus) {
-    const dialog = document.createElement("dialog")
+  if (state.detailStatus) {
+    const dialog = document.createElement("dialog");
     dialog.className =
-      "m-auto max-h-[85vh] w-11/12 max-w-3xl overflow-y-auto rounded-2xl p-6 shadow-xl backdrop:bg-black/50"
+      "m-auto max-h-[85vh] w-11/12 max-w-3xl overflow-y-auto rounded-2xl p-6 shadow-xl backdrop:bg-black/50";
 
-    const closeForm = document.createElement("form")
-    closeForm.method = "dialog"
-    closeForm.className = "mb-4 flex justify-end"
+    const closeForm = document.createElement("form");
+    closeForm.method = "dialog";
+    closeForm.className = "mb-4 flex justify-end";
 
-    const closeButton = document.createElement("button")
-    closeButton.type = "submit"
-    closeButton.textContent = "Close"
+    const closeButton = document.createElement("button");
+    closeButton.type = "submit";
+    closeButton.textContent = "Close";
     closeButton.className =
-      "rounded-lg border border-gray-300 px-4 py-2 font-medium hover:bg-gray-100"
-    closeForm.append(closeButton)
-    dialog.append(closeForm)
+      "rounded-lg border border-gray-300 px-4 py-2 font-medium hover:bg-gray-100";
+    closeForm.append(closeButton);
+    dialog.append(closeForm);
 
     if (state.detailStatus === "loading") {
-      const message = document.createElement("p")
-      message.textContent = "Loading recipe details…"
-      message.setAttribute("aria-live", "polite")
-      dialog.append(message)
+      const message = document.createElement("p");
+      message.textContent = "Loading recipe details…";
+      message.setAttribute("aria-live", "polite");
+      dialog.append(message);
     } else if (state.detailStatus === "error") {
-      const message = document.createElement("p")
-      message.textContent = `Could not load recipe details: ${state.detailError}`
-      dialog.append(message)
+      const message = document.createElement("p");
+      message.textContent = `Could not load recipe details: ${state.detailError}`;
+      dialog.append(message);
     } else if (state.detailStatus === "success" && state.selectedRecipe) {
       const {
         name,
@@ -299,46 +306,46 @@ export function render(state) {
         cookTimeMinutes,
         ingredients = [],
         instructions = [],
-      } = state.selectedRecipe
+      } = state.selectedRecipe;
 
-      const title = document.createElement("h2")
-      title.textContent = name
-      title.className = "mb-2 text-2xl font-bold"
+      const title = document.createElement("h2");
+      title.textContent = name;
+      title.className = "mb-2 text-2xl font-bold";
 
-      const summary = document.createElement("p")
+      const summary = document.createElement("p");
       summary.textContent =
         `${cuisine} · ${difficulty} · ★ ${rating} · ` +
-        `${prepTimeMinutes + cookTimeMinutes} min total`
-      summary.className = "mb-4 text-gray-600"
+        `${prepTimeMinutes + cookTimeMinutes} min total`;
+      summary.className = "mb-4 text-gray-600";
 
-      const photo = document.createElement("img")
-      photo.src = image
-      photo.alt = name
-      photo.className = "mb-6 h-64 w-full rounded-xl object-cover"
+      const photo = document.createElement("img");
+      photo.src = image;
+      photo.alt = name;
+      photo.className = "mb-6 h-64 w-full rounded-xl object-cover";
 
-      const ingredientsHeading = document.createElement("h3")
-      ingredientsHeading.textContent = "Ingredients"
-      ingredientsHeading.className = "mb-2 text-lg font-semibold"
+      const ingredientsHeading = document.createElement("h3");
+      ingredientsHeading.textContent = "Ingredients";
+      ingredientsHeading.className = "mb-2 text-lg font-semibold";
 
-      const ingredientList = document.createElement("ul")
-      ingredientList.className = "mb-6 list-disc space-y-1 pl-6"
+      const ingredientList = document.createElement("ul");
+      ingredientList.className = "mb-6 list-disc space-y-1 pl-6";
       ingredients.forEach((ingredient) => {
-        const item = document.createElement("li")
-        item.textContent = ingredient
-        ingredientList.append(item)
-      })
+        const item = document.createElement("li");
+        item.textContent = ingredient;
+        ingredientList.append(item);
+      });
 
-      const instructionsHeading = document.createElement("h3")
-      instructionsHeading.textContent = "Instructions"
-      instructionsHeading.className = "mb-2 text-lg font-semibold"
+      const instructionsHeading = document.createElement("h3");
+      instructionsHeading.textContent = "Instructions";
+      instructionsHeading.className = "mb-2 text-lg font-semibold";
 
-      const instructionList = document.createElement("ol")
-      instructionList.className = "list-decimal space-y-2 pl-6"
+      const instructionList = document.createElement("ol");
+      instructionList.className = "list-decimal space-y-2 pl-6";
       instructions.forEach((instruction) => {
-        const item = document.createElement("li")
-        item.textContent = instruction
-        instructionList.append(item)
-      })
+        const item = document.createElement("li");
+        item.textContent = instruction;
+        instructionList.append(item);
+      });
 
       dialog.append(
         title,
@@ -348,16 +355,16 @@ export function render(state) {
         ingredientList,
         instructionsHeading,
         instructionList,
-      )
+      );
     }
 
     dialog.addEventListener("close", () => {
-      state.detailStatus = null
-      state.detailError = null
-      state.selectedRecipe = null
-    })
+      state.detailStatus = null;
+      state.detailError = null;
+      state.selectedRecipe = null;
+    });
 
-    app.append(dialog)
-    dialog.showModal()
+    app.append(dialog);
+    dialog.showModal();
   }
 }
