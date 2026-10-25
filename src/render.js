@@ -43,6 +43,38 @@ export function render(state) {
   searchInput.className =
     "mt-2 w-full rounded-lg border border-gray-300 px-4 py-3"
 
+     const filterLabel = document.createElement("label")
+  filterLabel.htmlFor = "cuisine-filter"
+  filterLabel.textContent = "Filter by cuisine"
+  filterLabel.className = "mt-4 block font-medium text-gray-800"
+
+  const filterSelect = document.createElement("select")
+  filterSelect.id = "cuisine-filter"
+  filterSelect.className =
+    "mt-2 rounded-lg border border-gray-300 bg-white px-4 py-3"
+
+  const allOption = document.createElement("option")
+  allOption.value = "all"
+  allOption.textContent = "All cuisines"
+  filterSelect.append(allOption)
+
+  const cuisines = [
+    ...new Set(
+      state.items
+        .map(({ cuisine }) => cuisine)
+        .filter(Boolean),
+    ),
+  ].toSorted()
+
+  cuisines.forEach((cuisine) => {
+    const option = document.createElement("option")
+    option.value = cuisine
+    option.textContent = cuisine
+    filterSelect.append(option)
+  })
+
+  filterSelect.value = state.filter ?? "all" 
+
   const visibleItems = getVisibleItems({
     items: state.items,
     query: state.query ?? "",
@@ -61,7 +93,7 @@ export function render(state) {
     const emptyMessage = document.createElement("p")
     emptyMessage.textContent = "No recipes match your search. Try another term."
     emptyMessage.className = "mt-8 text-gray-600"
-    page.append(heading, searchLabel, searchInput, status, emptyMessage)
+    page.append(heading, searchLabel, searchInput, filterLabel, filterSelect, status, emptyMessage)
     app.append(page)
     return
   }
@@ -96,6 +128,6 @@ export function render(state) {
   )
 
   grid.append(...cards)
-  page.append(heading, searchLabel, searchInput, status, grid)
+  page.append(heading, searchLabel, searchInput, filterLabel, filterSelect, status, grid)
   app.append(page)
 }

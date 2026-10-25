@@ -50,4 +50,11 @@ app.addEventListener("input", (event) => {
   }
 })
 
+app.addEventListener("change", (event) => {
+  if (event.target.id !== "cuisine-filter") return
+
+  state.filter = event.target.value
+  render(state)
+})
+
 load()
