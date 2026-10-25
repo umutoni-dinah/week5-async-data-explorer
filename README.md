@@ -4,10 +4,10 @@ A single-page app for discovering recipes from around the world. Search by recip
 
 ## Project links
 
-- **Student name:** [Add your full name]
+- **Student name:** Umutoni Dinah
 - **API:** [DummyJSON Recipes](https://dummyjson.com/docs/recipes)
 - **GitHub repository:** [week5-async-data-explorer](https://github.com/umutoni-dinah/week5-async-data-explorer)
-- **Live app:** [Add your deployed app link]
+- **Live app:** [Recipe Explorer](https://week5-async-data-explorer.netlify.app)
 - **Video walkthrough:** [Add your 3–5 minute video link]
 
 ## Features
