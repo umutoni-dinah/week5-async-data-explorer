@@ -289,7 +289,7 @@ export function render(state) {
 
     if (state.detailStatus === "loading") {
       const message = document.createElement("p");
-      message.textContent = "Loading recipe details…";
+      message.textContent = `Loading ${state.selectedRecipe?.name ?? "recipe"} details…`
       message.setAttribute("aria-live", "polite");
       dialog.append(message);
     } else if (state.detailStatus === "error") {

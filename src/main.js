@@ -83,14 +83,17 @@ app.addEventListener("click", async (event) => {
 
   const recipeButton = event.target.closest("[data-recipe-id]")
   if (!recipeButton) return
+const recipeId = Number(recipeButton.dataset.recipeId)
+const recipeSummary = state.items.find(({ id }) => id === recipeId)
+if (!recipeSummary) return
 
-  state.selectedRecipe = null
+  state.selectedRecipe = recipeSummary
   state.detailError = null
   state.detailStatus = "loading"
   render(state)
 
   try {
-    state.selectedRecipe = await getRecipe(recipeButton.dataset.recipeId)
+    state.selectedRecipe = await getRecipe(recipeId)
     state.detailStatus = "success"
   } catch (error) {
     state.detailError = error.message
