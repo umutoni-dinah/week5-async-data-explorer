@@ -68,38 +68,38 @@ app.addEventListener("change", (event) => {
 });
 
 app.addEventListener("click", async (event) => {
-    if (event.target.closest("#retry-button")) {
-    load()
-    return
+  if (event.target.closest("#retry-button")) {
+    load();
+    return;
   }
 
   if (event.target.closest("#reset-filters")) {
-  state.query = ""
-  state.filter = "all"
-  state.sort = "default"
-  render(state)
-  return
-}
-
-  const recipeButton = event.target.closest("[data-recipe-id]")
-  if (!recipeButton) return
-const recipeId = Number(recipeButton.dataset.recipeId)
-const recipeSummary = state.items.find(({ id }) => id === recipeId)
-if (!recipeSummary) return
-
-  state.selectedRecipe = recipeSummary
-  state.detailError = null
-  state.detailStatus = "loading"
-  render(state)
-
-  try {
-    state.selectedRecipe = await getRecipe(recipeId)
-    state.detailStatus = "success"
-  } catch (error) {
-    state.detailError = error.message
-    state.detailStatus = "error"
+    state.query = "";
+    state.filter = "all";
+    state.sort = "default";
+    render(state);
+    return;
   }
 
-  render(state)
-})
+  const recipeButton = event.target.closest("[data-recipe-id]");
+  if (!recipeButton) return;
+  const recipeId = Number(recipeButton.dataset.recipeId);
+  const recipeSummary = state.items.find(({ id }) => id === recipeId);
+  if (!recipeSummary) return;
+
+  state.selectedRecipe = recipeSummary;
+  state.detailError = null;
+  state.detailStatus = "loading";
+  render(state);
+
+  try {
+    state.selectedRecipe = await getRecipe(recipeId);
+    state.detailStatus = "success";
+  } catch (error) {
+    state.detailError = error.message;
+    state.detailStatus = "error";
+  }
+
+  render(state);
+});
 load();

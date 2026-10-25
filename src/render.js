@@ -200,18 +200,18 @@ export function render(state) {
     resetButton.className =
       "mt-4 rounded-lg bg-amber-600 px-5 py-3 font-semibold text-white hover:bg-amber-700";
     page.append(
-      heading,
-      searchLabel,
-      searchInput,
-      filterLabel,
-      filterSelect,
-      sortLabel,
-      sortSelect,
-      statsBar,
-      status,
-      emptyMessage,
-      resetButton,
-    );
+  heading,
+  searchLabel,
+  searchInput,
+  filterLabel,
+  filterSelect,
+  sortLabel,
+  sortSelect,
+  statsBar,
+  status,
+  emptyMessage,
+  resetButton,
+)
 
     app.append(page);
     return;
@@ -255,18 +255,17 @@ export function render(state) {
 
   grid.append(...cards);
   page.append(
-    heading,
-    searchLabel,
-    searchInput,
-    filterLabel,
-    filterSelect,
-    sortLabel,
-    sortSelect,
-    filterSelect,
-    statsBar,
-    status,
-    grid,
-  );
+  heading,
+  searchLabel,
+  searchInput,
+  filterLabel,
+  filterSelect,
+  sortLabel,
+  sortSelect,
+  statsBar,
+  status,
+  grid,
+)
   app.append(page);
 
   if (state.detailStatus) {
