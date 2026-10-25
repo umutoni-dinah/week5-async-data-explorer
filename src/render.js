@@ -1,3 +1,5 @@
+import { getVisibleItems } from "./utils.js"
+
 const app = document.querySelector("#app")
 
 export function render(state) {
@@ -28,39 +30,72 @@ export function render(state) {
     return
   }
 
-  status.textContent = `${state.items.length} recipes loaded`
+  const searchLabel = document.createElement("label")
+  searchLabel.htmlFor = "recipe-search"
+  searchLabel.textContent = "Search recipes"
+  searchLabel.className = "mt-6 block font-medium text-gray-800"
+
+  const searchInput = document.createElement("input")
+  searchInput.id = "recipe-search"
+  searchInput.type = "search"
+  searchInput.placeholder = "Try a recipe name, cuisine, or ingredient"
+  searchInput.value = state.query ?? ""
+  searchInput.className =
+    "mt-2 w-full rounded-lg border border-gray-300 px-4 py-3"
+
+  const visibleItems = getVisibleItems({
+    items: state.items,
+    query: state.query ?? "",
+    filter: state.filter ?? "all",
+    sort: state.sort ?? "default",
+  })
+
+  status.textContent = `${visibleItems.length} recipes shown`
 
   const grid = document.createElement("section")
   grid.setAttribute("aria-label", "Recipes")
-  grid.className = "mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+  grid.className =
+    "mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
 
-  const cards = state.items.map(({ name, image, cuisine, difficulty, rating }) => {
-    const card = document.createElement("article")
-    card.className = "overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+  if (visibleItems.length === 0) {
+    const emptyMessage = document.createElement("p")
+    emptyMessage.textContent = "No recipes match your search. Try another term."
+    emptyMessage.className = "mt-8 text-gray-600"
+    page.append(heading, searchLabel, searchInput, status, emptyMessage)
+    app.append(page)
+    return
+  }
 
-    const photo = document.createElement("img")
-    photo.src = image
-    photo.alt = name
-    photo.className = "h-48 w-full object-cover"
+  const cards = visibleItems.map(
+    ({ name, image, cuisine, difficulty, rating }) => {
+      const card = document.createElement("article")
+      card.className =
+        "overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
 
-    const content = document.createElement("div")
-    content.className = "space-y-2 p-4"
+      const photo = document.createElement("img")
+      photo.src = image
+      photo.alt = name
+      photo.className = "h-48 w-full object-cover"
 
-    const title = document.createElement("h2")
-    title.textContent = name
-    title.className = "text-lg font-semibold text-gray-900"
+      const content = document.createElement("div")
+      content.className = "space-y-2 p-4"
 
-    const description = document.createElement("p")
-    description.textContent = `${cuisine} · ${difficulty} · ★ ${rating}`
-    description.className = "text-sm text-gray-600"
+      const title = document.createElement("h2")
+      title.textContent = name
+      title.className = "text-lg font-semibold text-gray-900"
 
-    content.append(title, description)
-    card.append(photo, content)
+      const description = document.createElement("p")
+      description.textContent = `${cuisine} · ${difficulty} · ★ ${rating}`
+      description.className = "text-sm text-gray-600"
 
-    return card
-  })
+      content.append(title, description)
+      card.append(photo, content)
+
+      return card
+    },
+  )
 
   grid.append(...cards)
-  page.append(heading, status, grid)
+  page.append(heading, searchLabel, searchInput, status, grid)
   app.append(page)
 }
