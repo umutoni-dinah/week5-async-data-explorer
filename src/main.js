@@ -57,4 +57,11 @@ app.addEventListener("change", (event) => {
   render(state)
 })
 
+app.addEventListener("change", (event) => {
+  if (event.target.id !== "sort-select") return
+
+  state.sort = event.target.value
+  render(state)
+})
+
 load()
