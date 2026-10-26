@@ -8,7 +8,7 @@ A single-page app for discovering recipes from around the world. Search by recip
 - **API:** [DummyJSON Recipes](https://dummyjson.com/docs/recipes)
 - **GitHub repository:** [week5-async-data-explorer](https://github.com/umutoni-dinah/week5-async-data-explorer)
 - **Live app:** [Recipe Explorer](https://week5-async-data-explorer.netlify.app)
-- **Video walkthrough:** [Add your 3–5 minute video link]
+- **Video walkthrough:** https://drive.google.com/file/d/16YcVzdclVFBgDAXZHRyj36kzOilrSGS9/view?usp=sharing
 
 ## Features
 
