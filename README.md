@@ -71,13 +71,17 @@ A shortened example of a recipe returned by the API:
 The app uses `map()` to build recipe cards and cuisine choices. It uses `find()` to locate a selected recipe in the loaded data before requesting its full details. `filter()` matches recipes to the search and selected cuisine, while `toSorted()` sorts a copy of the visible recipes without changing the original array. `reduce()` calculates the average rating and average total preparation and cooking time.
 
 ## Screenshots
+### Loading
+![Loading state](screenshots/loading.png)
 
-Save screenshots in a `screenshots` folder using these filenames, then add them to this README:
+### Success
+![Success state](screenshots/success.png)
 
-- **Loading:** `screenshots/loading.png`
-- **Success:** `screenshots/success.png`
-- **Empty:** `screenshots/empty.png`
-- **Error:** `screenshots/error.png`
+### Empty
+![Empty state](screenshots/empty.png)
+
+### Error
+![Error state](screenshots/error.png)
 
 ## What I learned about async JavaScript
 
